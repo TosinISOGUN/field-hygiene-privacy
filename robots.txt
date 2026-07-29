@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://field-hygiene.isogunlabs.com/sitemap.xml

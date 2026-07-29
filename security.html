@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="author" content="Isogun Labs">
+<meta name="theme-color" content="#123C39">
+<title>Field Hygiene for Jira — Security Policy</title>
+<meta name="description" content="How Field Hygiene for Jira authenticates, what it accesses, and how it handles data. Runs entirely on Atlassian Forge.">
+<link rel="canonical" href="https://field-hygiene.isogunlabs.com/security.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Field Hygiene for Jira — Security Policy">
+<meta property="og:description" content="Authentication, data flow, hosting, storage, and vulnerability management for Field Hygiene.">
+<meta property="og:url" content="https://field-hygiene.isogunlabs.com/security.html">
+<meta property="og:image" content="https://field-hygiene.isogunlabs.com/assets/img/field-hygiene-thumbnail.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta property="og:site_name" content="Field Hygiene for Jira">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@isogunlabs">
+<meta name="twitter:title" content="Field Hygiene for Jira — Security Policy">
+<meta name="twitter:description" content="Authentication, data flow, hosting, storage, and vulnerability management.">
+<meta name="twitter:image" content="https://field-hygiene.isogunlabs.com/assets/img/field-hygiene-thumbnail.png">
+
+<link rel="icon" href="/assets/img/field-hygiene-logo.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/field-hygiene-logo-144.png" sizes="144x144" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/field-hygiene-logo-144.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Field Hygiene for Jira", "item": "https://field-hygiene.isogunlabs.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Security Policy", "item": "https://field-hygiene.isogunlabs.com/security.html" }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/assets/css/site.css?v=1">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="logo" href="/">
+      <img src="/assets/img/field-hygiene-logo-144.png" alt="" width="36" height="36">
+      <b>Field Hygiene</b>
+    </a>
+    <div class="nav-mid">
+      <a href="index.html">Home</a>
+      <a href="docs.html">Documentation</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="security.html" class="active">Security</a>
+    </div>
+    <div class="nav-right">
+      <a class="btn btn-amber btn-sm" href="mailto:support@isogunlabs.com?subject=Notify%20me%20when%20Field%20Hygiene%20launches">Get notified</a>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="drawer-overlay"></div>
+<aside class="drawer" id="mobile-drawer">
+  <div class="d-head">
+    <a class="logo" href="/">
+      <img src="/assets/img/field-hygiene-logo-144.png" alt="" width="32" height="32">
+      <b>Field Hygiene</b>
+    </a>
+    <button class="d-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <nav>
+    <a class="d-link" href="index.html">Home</a>
+    <a class="d-link" href="docs.html">Documentation</a>
+    <a class="d-link" href="privacy.html">Privacy</a>
+    <a class="d-link" href="security.html">Security</a>
+  </nav>
+  <a class="btn btn-amber" href="mailto:support@isogunlabs.com?subject=Notify%20me%20when%20Field%20Hygiene%20launches">Get notified</a>
+</aside>
+
+<header class="page-hero">
+  <div class="wrap">
+    <h1 class="page-title">Security Policy</h1>
+    <div class="updated">Last updated: 29 July 2026</div>
+  </div>
+</header>
+
+<main class="wrap legal">
+
+  <span class="pill">Runs on Atlassian · Read-only · Minimal storage</span>
+  <p class="lead">
+    Field Hygiene for Jira is built to have the smallest possible security footprint. This
+    page explains how it authenticates, what it accesses, and how it handles data — see also
+    the <a href="privacy.html">Privacy Policy</a> for what data is read and why.
+  </p>
+
+  <section>
+    <h2>Authentication &amp; authorization</h2>
+    <p>
+      Field Hygiene authenticates entirely through Atlassian Forge using OAuth 2.0 — there is
+      no separate login, password, or API key. The app requests two scopes,
+      <code>read:jira-work</code> and <code>manage:jira-configuration</code>, and every
+      interactive request runs as the requesting admin (Forge <code>asUser</code>). The one
+      named exception: a daily scheduled job that takes the Trends snapshot runs with no user
+      context at all — Atlassian's own platform gives scheduled triggers no user session to act
+      as — so that one job uses Forge's app-level identity (<code>asApp</code>) instead, purely
+      to read the same aggregate field counts already described in the Privacy Policy. Every
+      other request in the app uses the requesting admin's own identity, and can never surface
+      anything that admin couldn't already see in Jira.
+    </p>
+  </section>
+
+  <section>
+    <h2>Data flow</h2>
+    <p>
+      When an admin opens Field Hygiene, a Forge resolver queries Jira's field and project
+      metadata as that admin, groups and analyzes it in memory, and returns the result directly
+      to the page. Nothing from that scan is written to storage. Separately, once a day, a
+      scheduled job performs the same kind of scan and writes only four aggregate counts to
+      Forge's Key-Value Store for the Trends chart — see the Privacy Policy for exactly what
+      that snapshot contains.
+    </p>
+  </section>
+
+  <section>
+    <h2>Hosting &amp; subprocessors</h2>
+    <p>
+      Field Hygiene runs entirely on Atlassian Forge — there are no partner-operated servers,
+      databases, or third-party subprocessors. It makes no network calls to any non-Atlassian
+      domain, and uses no external analytics or logging services.
+    </p>
+  </section>
+
+  <section>
+    <h2>Data storage &amp; encryption</h2>
+    <p>
+      The only storage Field Hygiene uses is Forge's Key-Value Store, holding one small record
+      per day (four integers) for the Trends chart, retained for 90 days and then deleted
+      automatically. That storage is Atlassian-managed, inheriting Forge's platform-level
+      encryption at rest and in transit — Field Hygiene has no separate infrastructure of its
+      own to encrypt. Everything else the app shows is computed fresh in memory on each page
+      load and never persisted.
+    </p>
+  </section>
+
+  <section>
+    <h2>Logging</h2>
+    <p>
+      Field Hygiene writes only operational logs through Forge's platform logging — a status
+      code on a failed request, or a line confirming the daily snapshot ran. Logs never contain
+      a field name, field ID, or any other customer content, and never contain credentials.
+    </p>
+  </section>
+
+  <section>
+    <h2>Vulnerability &amp; dependency management</h2>
+    <p>
+      Field Hygiene's only runtime dependencies are Atlassian's own Forge SDK packages
+      (<code>@forge/api</code>, <code>@forge/bridge</code>, <code>@forge/kvs</code>,
+      <code>@forge/react</code>, <code>@forge/resolver</code>) plus React itself as their
+      required peer dependency — no third-party packages are added on top. Periodic
+      <code>npm audit</code> checks are run before releases; any findings are traced to their
+      source before being dismissed or acted on, not assumed clean.
+    </p>
+  </section>
+
+  <section>
+    <h2>Access control</h2>
+    <p>
+      Field Hygiene is built and operated by a small independent studio. Source and deployment
+      access is limited to the developer's Atlassian developer account, protected with
+      two-factor authentication.
+    </p>
+  </section>
+
+  <section>
+    <h2>Reporting a security issue</h2>
+    <p>
+      If you believe you've found a security vulnerability in Field Hygiene, please report it to
+      <a href="mailto:support@isogunlabs.com">support@isogunlabs.com</a>. We aim to acknowledge
+      reports promptly and will work with you on responsible disclosure.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-bottom" style="border-top:0; padding-top:0;">
+      Field Hygiene for Jira ·
+      <a href="index.html">Home</a> ·
+      <a href="docs.html">Documentation</a> ·
+      <a href="privacy.html">Privacy</a> ·
+      <a href="https://isogunlabs.com/">Isogun Labs</a><br>
+      An independent Atlassian Marketplace app by Isogun Labs, not affiliated with or endorsed by Atlassian.
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js?v=1" defer></script>
+</body>
+</html>

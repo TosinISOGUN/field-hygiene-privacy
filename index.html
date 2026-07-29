@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="author" content="Isogun Labs">
+<meta name="theme-color" content="#123C39">
+<!-- Google Search Console: verify via DNS TXT at Porkbun once this property is registered, matching the isogunlabs-home/Recap pattern — no meta tag needed. -->
+<!-- Bing Webmaster Tools: <meta name="msvalidate.01" content="PASTE_TOKEN_HERE"> once registered. -->
+<title>Field Hygiene for Jira — Find Duplicate & Unused Custom Fields</title>
+<meta name="description" content="Field Hygiene for Jira finds duplicate, unused, and mismatched custom fields on one page — before they become clutter. Runs entirely on Atlassian.">
+<link rel="canonical" href="https://field-hygiene.isogunlabs.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Field Hygiene for Jira — Find Duplicate & Unused Custom Fields">
+<meta property="og:description" content="Duplicate fields, unused fields, missing descriptions, and how close you are to Atlassian's field-count limits — one page, no setup.">
+<meta property="og:url" content="https://field-hygiene.isogunlabs.com/">
+<meta property="og:image" content="https://field-hygiene.isogunlabs.com/assets/img/field-hygiene-thumbnail.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta property="og:site_name" content="Field Hygiene for Jira">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@isogunlabs">
+<meta name="twitter:title" content="Field Hygiene for Jira">
+<meta name="twitter:description" content="Duplicate fields, unused fields, missing descriptions, and field-count limits — one page, no setup.">
+<meta name="twitter:image" content="https://field-hygiene.isogunlabs.com/assets/img/field-hygiene-thumbnail.png">
+
+<link rel="icon" href="/assets/img/field-hygiene-logo.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/field-hygiene-logo-144.png" sizes="144x144" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/field-hygiene-logo-144.png">
+
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/dm-sans-latin.woff2" crossorigin>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "Isogun Labs",
+      "url": "https://isogunlabs.com/",
+      "logo": "https://field-hygiene.isogunlabs.com/assets/img/field-hygiene-logo-144.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/isogun-labs",
+        "https://x.com/isogunlabs",
+        "https://www.instagram.com/isogunlabs/",
+        "https://www.youtube.com/@isogun_labs"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Field Hygiene for Jira", "item": "https://field-hygiene.isogunlabs.com/" }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Field Hygiene for Jira",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Atlassian Jira Cloud",
+      "url": "https://field-hygiene.isogunlabs.com/",
+      "image": "https://field-hygiene.isogunlabs.com/assets/img/field-hygiene-thumbnail.png",
+      "description": "Field Hygiene for Jira finds duplicate, near-duplicate, unused, and undocumented custom fields, plus how close your site is to Atlassian's field-count limits, all on one page. Runs entirely on Atlassian.",
+      "publisher": { "@type": "Organization", "name": "Isogun Labs", "url": "https://isogunlabs.com/" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question", "name": "What counts as a duplicate field?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Two or more custom fields whose names match once case and extra whitespace are ignored — \"Story Points\" and \"story  points\" are treated as the same name. Near-duplicates (like \"Story Point\" vs \"Story Points\") are flagged separately as possible duplicates." }
+        },
+        {
+          "@type": "Question", "name": "Does Field Hygiene delete or merge fields?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. It's read-only — it reports what it finds, and you decide what to do about it directly in Jira. It never renames, merges, or deletes anything." }
+        },
+        {
+          "@type": "Question", "name": "What data does it store?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Only a daily aggregate snapshot for the Trends chart — four counts (total custom fields, duplicate groups, unused fields, possible duplicates). Never a field name, field ID, or any other identifying content. See the privacy policy for detail." }
+        },
+        {
+          "@type": "Question", "name": "Is it free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, for sites of 10 users or fewer. Paid per seat above that, with the same features at every tier." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="/assets/css/site.css?v=1">
+</head>
+<body>
+
+<div class="util">
+  <div class="wrap">
+    <div class="u-left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg>
+      <a href="https://isogunlabs.com/">Part of Isogun Labs</a>
+    </div>
+    <div class="u-right"><a href="mailto:support@isogunlabs.com">support@isogunlabs.com</a></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="logo" href="/">
+      <img src="/assets/img/field-hygiene-logo-144.png" alt="" width="36" height="36">
+      <b>Field Hygiene</b>
+    </a>
+    <div class="nav-mid">
+      <a href="#how">How it works</a>
+      <a href="#catches">What it catches</a>
+      <a href="docs.html">Documentation</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="security.html">Security</a>
+    </div>
+    <div class="nav-right">
+      <a class="btn btn-amber btn-sm" href="mailto:support@isogunlabs.com?subject=Notify%20me%20when%20Field%20Hygiene%20launches">Get notified</a>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="drawer-overlay"></div>
+<aside class="drawer" id="mobile-drawer">
+  <div class="d-head">
+    <a class="logo" href="/">
+      <img src="/assets/img/field-hygiene-logo-144.png" alt="" width="32" height="32">
+      <b>Field Hygiene</b>
+    </a>
+    <button class="d-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <nav>
+    <a class="d-link" href="#how">How it works</a>
+    <a class="d-link" href="#catches">What it catches</a>
+    <a class="d-link" href="docs.html">Documentation</a>
+    <a class="d-link" href="privacy.html">Privacy</a>
+    <a class="d-link" href="security.html">Security</a>
+  </nav>
+  <a class="btn btn-amber" href="mailto:support@isogunlabs.com?subject=Notify%20me%20when%20Field%20Hygiene%20launches">Get notified</a>
+</aside>
+
+<header class="hero">
+  <div class="hero-facets" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span> Coming soon to the Atlassian Marketplace</span>
+    <h1>Duplicate fields, found before they pile up.</h1>
+    <p class="lead">Jira never stops you from creating two custom fields with the same name. Field Hygiene opens to one page and shows you every duplicate, near-duplicate, unused, and undocumented field on your site — plus how close you are to Atlassian's field-count limits.</p>
+    <div class="hero-actions">
+      <a class="btn btn-amber" href="mailto:support@isogunlabs.com?subject=Notify%20me%20when%20Field%20Hygiene%20launches">Get notified at launch
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn-text" href="#how">See how it works
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <ul class="trust-chips">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v6c0 5 3.4 8.5 7.5 9 4.1-.5 7.5-4 7.5-9V6L12 3Z"/></svg> Runs on Atlassian</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Read-only, never deletes</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Free for teams of 10 or fewer</li>
+    </ul>
+  </div>
+</header>
+
+<section class="block reveal" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">How it works</div>
+      <h2>Install, open, and <span class="amber">see the problem</span></h2>
+      <p>No setup, no configuration, no date pickers — Field Hygiene scans automatically the moment you open it.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="num">1</div>
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M12 15l-4-4M12 15l4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>
+        <h3>Install from the Marketplace</h3>
+        <p>One click, admin-approved permissions. Nothing to configure before it works.</p>
+      </div>
+      <div class="flow-arrow" style="left:calc(33.33% - 14px);" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+      <div class="flow-step">
+        <div class="num">2</div>
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h3>Open the admin page</h3>
+        <p>The scan runs the moment the page loads — every custom field on your site, checked automatically.</p>
+      </div>
+      <div class="flow-arrow" style="left:calc(66.66% - 14px);" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+      <div class="flow-step">
+        <div class="num">3</div>
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Fix it in Jira</h3>
+        <p>Field Hygiene reports what it finds — you decide what to rename, merge, or delete.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block reveal" id="catches" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">What it catches</div>
+      <h2>Six ways custom fields go wrong</h2>
+      <p>Each one is its own page in the app — nothing buried, nothing you have to dig for.</p>
+    </div>
+    <div class="principles">
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="13" height="13" rx="2"/><rect x="8" y="8" width="13" height="13" rx="2"/></svg></div>
+        <h3>Duplicate names</h3>
+        <p>Exact-name collisions, grouped together — with a warning when they don't even share the same field type.</p>
+      </div>
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h3>Near-duplicates</h3>
+        <p>"Story Point" vs "Story Points" — caught by name similarity, not just exact matches.</p>
+      </div>
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3>Unused fields</h3>
+        <p>Not on any screen, or untouched for two or more years — candidates for cleanup, never deleted for you.</p>
+      </div>
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <h3>Missing descriptions</h3>
+        <p>A common reason admins can't tell fields apart — and create a duplicate instead of reusing one.</p>
+      </div>
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg></div>
+        <h3>Field-count limits</h3>
+        <p>A live read on how close each field configuration scheme and team-managed project is to Atlassian's ceiling.</p>
+      </div>
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 6h7v7"/></svg></div>
+        <h3>Trends over time</h3>
+        <p>A daily snapshot of every count, so you can see whether sprawl is getting better or worse.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Why it's built this way</div>
+      <h2>Honest by default</h2>
+      <p>No writes, no third-party servers, no dashboard you have to maintain.</p>
+    </div>
+    <div class="principles">
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>Read-only, always</h3>
+        <p>Field Hygiene never renames, merges, or deletes a field. It reports — you fix it in Jira.</p>
+      </div>
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z"/></svg></div>
+        <h3>Runs on Atlassian</h3>
+        <p>Built on Forge. Zero external domains — nothing calls out to a third-party server.</p>
+      </div>
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 12h6M3 12l3-3M3 12l3 3"/></svg></div>
+        <h3>Almost nothing stored</h3>
+        <p>Only a daily aggregate count for Trends — never a field name, ID, or any other content.</p>
+      </div>
+      <div class="principle">
+        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></div>
+        <h3>Same features, every tier</h3>
+        <p>Free for sites of 10 users or fewer. Paid per seat above that — nothing held back on the free plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block reveal" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">FAQ</div>
+      <h2>Questions people actually ask</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>What counts as a duplicate field?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>Two or more custom fields whose names match once case and extra whitespace are ignored — "Story Points" and "story&nbsp;&nbsp;points" are treated as the same name. Near-duplicates like "Story Point" vs "Story Points" are flagged separately, as possible duplicates.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Does Field Hygiene delete or merge fields?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>No. It's read-only — it reports what it finds, and you decide what to do about it directly in Jira. It never renames, merges, or deletes anything.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What does "unused" actually mean?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>A field that isn't attached to any screen, or one Jira has tracked as untouched for two or more years. Both are candidates for cleanup, not automatically safe to delete.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What data does it store?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>Only a daily aggregate snapshot for the Trends chart — four counts, never a field name, ID, or any other identifying content. See the <a href="privacy.html">privacy policy</a> for detail.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is it free?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>Yes, for sites of 10 users or fewer. Paid per seat above that, with the same features at every tier.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do I export a scan?
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <p>Click Export, then select all the text in the box that appears and copy it — paste it into a ticket, a spreadsheet, or a message.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta reveal">
+  <div class="cta-facets" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2>Stop letting fields pile up quietly</h2>
+    <p>Field Hygiene for Jira is finishing up before its Atlassian Marketplace submission. Leave your email and we'll let you know the moment it's live.</p>
+    <div class="cta-actions">
+      <a class="btn btn-amber" href="mailto:support@isogunlabs.com?subject=Notify%20me%20when%20Field%20Hygiene%20launches">Get notified at launch
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn btn-ghost-light" href="https://isogunlabs.com/get-started/">See our other apps</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a class="logo" href="/">
+          <img src="/assets/img/field-hygiene-logo-144.png" alt="" width="32" height="32">
+          <b>Field Hygiene</b>
+        </a>
+        <p>Duplicate, unused, and mismatched custom fields for Jira — found before they pile up.</p>
+      </div>
+      <div class="foot-links">
+        <a href="docs.html">Documentation</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="security.html">Security</a>
+        <a href="https://isogunlabs.com/">Isogun Labs</a>
+        <a href="mailto:support@isogunlabs.com">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      Field Hygiene for Jira is an independent Atlassian Marketplace app by <a href="https://isogunlabs.com/">Isogun Labs</a>. Not affiliated with or endorsed by Atlassian.<br>
+      © 2026 Isogun Labs. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/site.js?v=1" defer></script>
+</body>
+</html>
