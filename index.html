@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <meta name="author" content="Isogun Labs">
+<meta name="robots" content="index, follow">
 <meta name="theme-color" content="#123C39">
 <!-- Google Search Console: verify via DNS TXT at Porkbun once this property is registered, matching the isogunlabs-home/Recap pattern — no meta tag needed. -->
 <!-- Bing Webmaster Tools: <meta name="msvalidate.01" content="PASTE_TOKEN_HERE"> once registered. -->
@@ -20,6 +21,7 @@
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="720">
 <meta property="og:site_name" content="Field Hygiene for Jira">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@isogunlabs">
 <meta name="twitter:title" content="Field Hygiene for Jira">
@@ -62,7 +64,13 @@
       "url": "https://field-hygiene.isogunlabs.com/",
       "image": "https://field-hygiene.isogunlabs.com/assets/img/field-hygiene-thumbnail.png",
       "description": "Field Hygiene for Jira finds duplicate, near-duplicate, unused, and undocumented custom fields, plus how close your site is to Atlassian's field-count limits, all on one page. Runs entirely on Atlassian.",
-      "publisher": { "@type": "Organization", "name": "Isogun Labs", "url": "https://isogunlabs.com/" }
+      "publisher": { "@type": "Organization", "name": "Isogun Labs", "url": "https://isogunlabs.com/" },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free for Jira sites of 10 users or fewer, with every feature included. Paid per seat above that, same features at every tier."
+      }
     },
     {
       "@type": "FAQPage",
@@ -212,36 +220,48 @@
       <h2>Six ways custom fields go wrong</h2>
       <p>Each one is its own page in the app — nothing buried, nothing you have to dig for.</p>
     </div>
-    <div class="principles">
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="13" height="13" rx="2"/><rect x="8" y="8" width="13" height="13" rx="2"/></svg></div>
-        <h3>Duplicate names</h3>
-        <p>Exact-name collisions, grouped together — with a warning when they don't even share the same field type.</p>
+    <div class="catch-list">
+      <div class="catch-row">
+        <div class="catch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="13" height="13" rx="2"/><rect x="8" y="8" width="13" height="13" rx="2"/></svg></div>
+        <div>
+          <h3>Duplicate names</h3>
+          <p>Exact-name collisions, grouped together — with a warning when they don't even share the same field type.</p>
+        </div>
       </div>
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
-        <h3>Near-duplicates</h3>
-        <p>"Story Point" vs "Story Points" — caught by name similarity, not just exact matches.</p>
+      <div class="catch-row">
+        <div class="catch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <div>
+          <h3>Near-duplicates</h3>
+          <p>"Story Point" vs "Story Points" — caught by name similarity, not just exact matches.</p>
+        </div>
       </div>
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
-        <h3>Unused fields</h3>
-        <p>Not on any screen, or untouched for two or more years — candidates for cleanup, never deleted for you.</p>
+      <div class="catch-row">
+        <div class="catch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div>
+          <h3>Unused fields</h3>
+          <p>Not on any screen, or untouched for two or more years — candidates for cleanup, never deleted for you.</p>
+        </div>
       </div>
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
-        <h3>Missing descriptions</h3>
-        <p>A common reason admins can't tell fields apart — and create a duplicate instead of reusing one.</p>
+      <div class="catch-row">
+        <div class="catch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <div>
+          <h3>Missing descriptions</h3>
+          <p>A common reason admins can't tell fields apart — and create a duplicate instead of reusing one.</p>
+        </div>
       </div>
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg></div>
-        <h3>Field-count limits</h3>
-        <p>A live read on how close each field configuration scheme and team-managed project is to Atlassian's ceiling.</p>
+      <div class="catch-row">
+        <div class="catch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 4 3 5-8"/></svg></div>
+        <div>
+          <h3>Field-count limits</h3>
+          <p>A live read on how close each field configuration scheme and team-managed project is to Atlassian's ceiling.</p>
+        </div>
       </div>
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 6h7v7"/></svg></div>
-        <h3>Trends over time</h3>
-        <p>A daily snapshot of every count, so you can see whether sprawl is getting better or worse.</p>
+      <div class="catch-row">
+        <div class="catch-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 6h7v7"/></svg></div>
+        <div>
+          <h3>Trends over time</h3>
+          <p>A daily snapshot of every count, so you can see whether sprawl is getting better or worse.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -254,26 +274,34 @@
       <h2>Honest by default</h2>
       <p>No writes, no third-party servers, no dashboard you have to maintain.</p>
     </div>
-    <div class="principles">
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
-        <h3>Read-only, always</h3>
-        <p>Field Hygiene never renames, merges, or deletes a field. It reports — you fix it in Jira.</p>
+    <div class="tenets">
+      <div class="tenet">
+        <div class="tag">No writes</div>
+        <div>
+          <h3>Read-only, always</h3>
+          <p>Field Hygiene never renames, merges, or deletes a field. It reports — you fix it in Jira.</p>
+        </div>
       </div>
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Z"/></svg></div>
-        <h3>Runs on Atlassian</h3>
-        <p>Built on Forge. Zero external domains — nothing calls out to a third-party server.</p>
+      <div class="tenet">
+        <div class="tag">No external servers</div>
+        <div>
+          <h3>Runs on Atlassian</h3>
+          <p>Built on Forge. Zero external domains — nothing calls out to a third-party server.</p>
+        </div>
       </div>
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 12h6M3 12l3-3M3 12l3 3"/></svg></div>
-        <h3>Almost nothing stored</h3>
-        <p>Only a daily aggregate count for Trends — never a field name, ID, or any other content.</p>
+      <div class="tenet">
+        <div class="tag">Minimal data</div>
+        <div>
+          <h3>Almost nothing stored</h3>
+          <p>Only a daily aggregate count for Trends — never a field name, ID, or any other content.</p>
+        </div>
       </div>
-      <div class="principle">
-        <div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></div>
-        <h3>Same features, every tier</h3>
-        <p>Free for sites of 10 users or fewer. Paid per seat above that — nothing held back on the free plan.</p>
+      <div class="tenet">
+        <div class="tag">Fair pricing</div>
+        <div>
+          <h3>Same features, every tier</h3>
+          <p>Free for sites of 10 users or fewer. Paid per seat above that — nothing held back on the free plan.</p>
+        </div>
       </div>
     </div>
   </div>

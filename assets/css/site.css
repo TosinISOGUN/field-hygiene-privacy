@@ -139,14 +139,22 @@ section.block { padding:80px 0; }
 .flow-arrow { position:absolute; top:56px; width:28px; height:28px; color:var(--amber-200); }
 .flow-arrow svg { width:100%; height:100%; }
 
-/* principle / feature grid */
-.principles { display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
-.principle { background:var(--white); border-radius:8px; padding:26px 22px; box-shadow:var(--shadow); transition:transform .2s, box-shadow .25s; }
-.principle:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
-.principle .ic { width:46px; height:46px; border-radius:8px; display:grid; place-items:center; background:linear-gradient(140deg,var(--amber-100),var(--amber-200)); color:var(--amber-600); margin-bottom:16px; }
-.principle .ic svg { width:23px; height:23px; }
-.principle h3 { margin:0 0 8px; font-size:1.02rem; font-weight:800; color:var(--ink); }
-.principle p { margin:0; color:var(--body); font-size:.92rem; }
+/* what it catches — divided index list, no cards */
+.catch-list { display:grid; grid-template-columns:repeat(2,1fr); column-gap:56px; }
+.catch-row { display:grid; grid-template-columns:42px 1fr; gap:18px; align-items:start; padding:26px 0; border-top:1px solid var(--line); }
+.catch-list .catch-row:nth-child(1), .catch-list .catch-row:nth-child(2) { border-top:0; padding-top:0; }
+.catch-ic { width:42px; height:42px; border-radius:50%; border:1px solid var(--line); display:grid; place-items:center; color:var(--teal-400); }
+.catch-ic svg { width:19px; height:19px; }
+.catch-row h3 { margin:0 0 6px; font-size:1.02rem; font-weight:800; color:var(--ink); }
+.catch-row p { margin:0; color:var(--body); font-size:.92rem; }
+
+/* why it's built this way — tag-led statement list, no cards */
+.tenets { max-width:840px; margin:0 auto; }
+.tenet { display:grid; grid-template-columns:150px 1fr; gap:28px; align-items:start; padding:28px 0; border-top:1px solid var(--line); }
+.tenets .tenet:first-child { border-top:0; padding-top:0; }
+.tenet .tag { font-size:.72rem; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--amber-600); padding-top:4px; }
+.tenet h3 { margin:0 0 6px; font-size:1.06rem; font-weight:800; color:var(--ink); }
+.tenet p { margin:0; color:var(--body); font-size:.94rem; max-width:52ch; }
 
 /* FAQ accordion */
 .faq-list { max-width:760px; margin:0 auto; }
@@ -221,7 +229,7 @@ ol.steps li::before { content:counter(step); position:absolute; left:0; top:12px
 
 @media (max-width:940px){
   .hero .wrap{ padding:64px 24px 56px; }
-  .principles{ grid-template-columns:repeat(2,1fr); }
+  .tenet{ grid-template-columns:110px 1fr; gap:20px; }
   .flow{ grid-template-columns:1fr; gap:36px; }
   .flow-arrow{ display:none; }
   .foot-top{ flex-direction:column; gap:24px; }
@@ -233,7 +241,10 @@ ol.steps li::before { content:counter(step); position:absolute; left:0; top:12px
 }
 @media (max-width:560px){
   section.block{ padding:56px 0; }
-  .principles{ grid-template-columns:1fr; }
+  .catch-list{ grid-template-columns:1fr; }
+  .catch-list .catch-row:nth-child(2){ border-top:1px solid var(--line); padding-top:26px; }
+  .tenet{ grid-template-columns:1fr; gap:6px; }
+  .tenet .tag{ padding-top:0; }
   .util{ font-size:.78rem; }
 }
 @media (prefers-reduced-motion: reduce){ *{ animation:none!important; scroll-behavior:auto; } .reveal{ opacity:1; transform:none; transition:none; } .hero-glow{ animation:none; } }
