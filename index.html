@@ -158,24 +158,64 @@
   <div class="hero-facets" aria-hidden="true"></div>
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap">
-    <span class="eyebrow"><span class="dot"></span> Coming soon to the Atlassian Marketplace</span>
-    <h1>Duplicate fields, found before they pile up.</h1>
-    <p class="lead">Jira never stops you from creating two custom fields with the same name. Field Hygiene opens to one page and shows you every duplicate, near-duplicate, unused, and undocumented field on your site — plus how close you are to Atlassian's field-count limits.</p>
-    <div class="hero-actions">
-      <a class="btn btn-amber" href="mailto:support@isogunlabs.com?subject=Notify%20me%20when%20Field%20Hygiene%20launches">Get notified at launch
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <a class="btn-text" href="#how">See how it works
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="dot"></span> Coming soon to the Atlassian Marketplace</span>
+      <h1>Duplicate fields, found before they pile up.</h1>
+      <p class="lead">Jira never stops you from creating two custom fields with the same name. Field Hygiene opens to one page and shows you every duplicate, near-duplicate, unused, and undocumented field on your site — plus how close you are to Atlassian's field-count limits.</p>
+      <div class="hero-actions">
+        <a class="btn btn-amber" href="mailto:support@isogunlabs.com?subject=Notify%20me%20when%20Field%20Hygiene%20launches">Get notified at launch
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn-text" href="#how">See how it works
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <ul class="trust-chips">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v6c0 5 3.4 8.5 7.5 9 4.1-.5 7.5-4 7.5-9V6L12 3Z"/></svg> Runs on Atlassian</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Read-only, never deletes</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Free for teams of 10 or fewer</li>
+      </ul>
     </div>
-    <ul class="trust-chips">
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v6c0 5 3.4 8.5 7.5 9 4.1-.5 7.5-4 7.5-9V6L12 3Z"/></svg> Runs on Atlassian</li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Read-only, never deletes</li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg> Free for teams of 10 or fewer</li>
-    </ul>
+
+    <div class="showcase-frame">
+      <div class="mock">
+        <div class="bar" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i><span class="url">Field Hygiene · Jira</span></div>
+        <div class="tabs" role="tablist" aria-label="Field Hygiene screenshots">
+          <button class="tab active" type="button" role="tab" aria-selected="true" aria-controls="shot-duplicates" data-target="shot-duplicates">Duplicates</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="shot-fieldlimits" data-target="shot-fieldlimits">Field limits</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="shot-trends" data-target="shot-trends">Trends</button>
+        </div>
+        <div class="slides">
+          <div class="slide active" id="shot-duplicates" role="tabpanel">
+            <img src="/assets/img/shot-duplicates.png" width="1104" height="540" alt="Field Hygiene's Duplicates page showing a type-mismatch warning on a colliding field group." loading="eager" decoding="async">
+          </div>
+          <div class="slide" id="shot-fieldlimits" role="tabpanel">
+            <img src="/assets/img/shot-fieldlimits.png" width="1104" height="540" alt="Field Hygiene's Field limits page showing guardrail gauges for field configuration schemes and team-managed projects." loading="lazy" decoding="async">
+          </div>
+          <div class="slide" id="shot-trends" role="tabpanel">
+            <img src="/assets/img/shot-trends.png" width="1104" height="540" alt="Field Hygiene's Trends page charting field counts over time." loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
+
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.mock .tab');
+  var slides = document.querySelectorAll('.mock .slide');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      slides.forEach(function (s) { s.classList.remove('active'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(tab.dataset.target).classList.add('active');
+    });
+  });
+})();
+</script>
 
 <section class="block reveal" id="how">
   <div class="wrap">
